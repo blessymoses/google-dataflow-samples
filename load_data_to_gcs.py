@@ -20,8 +20,6 @@ def run():
 
    lines = p | 'Read Text File' >> beam.io.ReadFromText(inputfile)
 
-   #lines | 'Write Text File' >> beam.io.WriteToText(output_prefix,num_shards=1)
-
    newlines = lines | 'Process File' >> beam.Map(lambda line: (line + 'appString'))
 
    newlines | 'Write Processed File' >> beam.io.WriteToText(output_prefix,num_shards=1)

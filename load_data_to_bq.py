@@ -35,8 +35,11 @@ def run():
    #convert data to dict
    newlines = lines | 'Convert to Dict' >> beam.ParDo(convertToDictFn())
    #write data to bigquery
-   newlines | 'Write To BigQuery' >> beam.io.WriteToBigQuery('namesdata','userdata',PROJECT,schema=None,create_disposition=beam.io.BigQueryDisposition.CREATE_IF_NEEDED,write_disposition=beam.io.BigQueryDisposition.WRITE_APPEND)
-
+   #newlines | 'Write To BigQuery' >> beam.io.WriteToBigQuery('namesdata','userdata',PROJECT,schema=None,create_disposition=beam.io.BigQueryDisposition.CREATE_IF_NEEDED,write_disposition=beam.io.BigQueryDisposition.WRITE_APPEND)
+   newlines | 'Write To BigQuery' >> beam.io.WriteToBigQuery('namesdata','userdata',PROJECT,
+      'name:STRING,gender:STRING,occurences:INTEGER',
+      create_disposition=beam.io.BigQueryDisposition.CREATE_IF_NEEDED,
+      write_disposition=beam.io.BigQueryDisposition.WRITE_APPEND)
    p.run()
 
 if __name__ == '__main__':
